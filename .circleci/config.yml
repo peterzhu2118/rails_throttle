@@ -15,7 +15,7 @@ jobs:
             - v1-dependencies-
 
       - run:
-          name: install dependencies
+          name: Install dependencies
           command: |
             bundle install --jobs=4 --retry=3 --path vendor/bundle
 
@@ -25,10 +25,10 @@ jobs:
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
       - run:
-          name: run tests
+          name: Run tests
           command: |
-            rake
-
+            bundle exec rake test
+ 
       - store_test_results:
           path: /tmp/test-results
       - store_artifacts:
