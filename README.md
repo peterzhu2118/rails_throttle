@@ -1,4 +1,4 @@
-# RailsThrottle
+# RailsThrottle [![CircleCI](https://circleci.com/gh/peterzhu2118/rails_throttle/tree/master.svg?style=svg)](https://circleci.com/gh/peterzhu2118/rails_throttle/tree/master) [![Gem Version](https://badge.fury.io/rb/rails_throttle.svg)](https://badge.fury.io/rb/rails_throttle)
 
 RailsThrottle is a simple library used to throttle code in your Rails application.
 

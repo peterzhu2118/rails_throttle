@@ -68,11 +68,11 @@ module RailsThrottle
 
       RailsThrottle::Throttle.decrement "foo"
 
-      refute RailsThrottle::Throttle.throttled? "foo", 5
+      refute RailsThrottle::Throttle.throttled? "foo", limit: 5
     end
 
     test ".throttled? returns false on nonexitant keys" do
-      refute RailsThrottle::Throttle.throttled? "bar", 5
+      refute RailsThrottle::Throttle.throttled? "bar", limit: 5
     end
 
     test ".throttled? returns false on not throttled keys" do
