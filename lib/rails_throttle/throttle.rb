@@ -1,11 +1,28 @@
 module RailsThrottle
   class Throttle
+    # Increments the counter for a given key.
+    #
+    # @param [String] key The key that uniquely identifies this throttle operation.
+    # @param [Hash] options The options to this increment.
+    # @option options [Integer] :increment The amount to increment the counter by, defaults to 1 if not provided.
+    # @option options [Integer] :limit The maximum value the key can take before it is throttled (i.e. this key will
+    #   be throttled once exceeded this limit).
+    # @option options [Integer] :period The period of time (in seconds) which this throttle applies, the throttle will
+    #   expire after this number of seconds.
+    # @yield [key, value] Yields up to two parameters (you can choose whether you want zero, one, or two of these
+    #   parameters).
+    # @yieldparam [String] key The key that was passed in.
+    # @yieldparam [Integer] value The current value of the throttle counter.
+    # @return [Integer] The current value of the throttle counter.
     def self.increment(key, options = {}, &block)
-      raise "Key cannot be blank." if key.blank?
+      raise "Key cannot be blank" if key.blank?
 
       increment = options[:increment] || 1
-      limit = options[:limit] || 0
-      period = options[:period] || 0
+      limit = options[:limit]
+      period = options[:period]
+
+      raise "Must specify :limit in the parameters" if limit.nil?
+      raise "Must specify :period in the parameters" if period.nil?
 
       value = RailsThrottle.backend.increment(key, increment)
 
@@ -16,9 +33,9 @@ module RailsThrottle
       elsif value > limit
         raise RailsThrottle::ThrottleError, "Limit exceeded for key `#{key}` with limit of #{limit}"
       end
-      
+
       unless block.nil?
-        if block.arity == 0
+        if block.arity.zero?
           block.call
         elsif block.arity == 1
           block.call(key)
@@ -30,6 +47,12 @@ module RailsThrottle
       value
     end
 
+    # Decrements the counter for a given key.
+    #
+    # @param [String] key The key that uniquely identifies this throttle operation.
+    # @param [Hash] options The options to this increment.
+    # @option options [Integer] :decrement The amount to decrement the counter by, defaults to 1 if not provided.
+    # @return [Integer] The current value of the throttle counter.
     def self.decrement(key, options = {})
       raise "Key cannot be blank." if key.blank?
 
@@ -38,14 +61,28 @@ module RailsThrottle
       RailsThrottle.backend.decrement(key, decrement)
     end
 
-    def self.throttled?(key, limit)
+    # Returns true if the key is throttled, false otherwise.
+    #
+    # @param [String] key The key that uniquely identifies this throttle operation.
+    # @param [Hash] options The options to this increment.
+    # @option options [Integer] :limit The maximum value the key can take before it is throttled (i.e. this key will
+    #   be throttled once exceeded this limit).
+    # @return [Boolean] True if the key is throttled, false otherwise.
+    def self.throttled?(key, options = {})
       raise "Key cannot be blank." if key.blank?
+
+      limit = options[:limit]
+
+      raise "Must specify :limit in the parameters" if limit.nil?
 
       value = RailsThrottle.backend.read(key) || 0
 
-      return value >= limit
+      value >= limit
     end
 
+    # Resets a key so that it is no longer throttled.
+    #
+    # @param [String] key The key that uniquely identifies this throttle operation.
     def self.reset(key)
       raise "Key cannot be blank." if key.blank?
 

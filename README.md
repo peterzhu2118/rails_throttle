@@ -1,15 +1,13 @@
 # RailsThrottle
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/rails_throttle`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+RailsThrottle is a simple library used to throttle code in your Rails application.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'rails_throttle'
+gem "rails_throttle", "~> 0.1.0"
 ```
 
 And then execute:
@@ -22,17 +20,37 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+- See full documentation here: 
+- Example configuration (for production, you can configure other environments in a similar way):
+    ```ruby
+    # In config/environments/production.rb
+    RailsThrottle.backend = ActiveSupport::Cache::RedisStore.new "localhost:6379/0"
+
+    # Alternatively, also supports any of the other caching strategies of ActiveSupport::Cache.
+    # For details, see https://api.rubyonrails.org/classes/ActiveSupport/Cache.html.
+    ```
+- Example usage:
+    ```ruby
+    RailsThrottle::Throttle.increment("foo", limit: 4, period: 2.seconds) # => 1
+    RailsThrottle::Throttle.increment("foo", limit: 4, period: 2.seconds) # => 2
+    RailsThrottle::Throttle.decrement("foo", limit: 4, period: 2.seconds) # => 1
+    RailsThrottle::Throttle.reset("foo")
+    RailsThrottle::Throttle.increment("foo", limit: 4, period: 2.seconds, increment: 4) # => 4
+    RailsThrottle::Throttle.increment("foo", limit: 4, period: 2.seconds) # => RailsThrottle::ThrottleError
+    RailsThrottle::Throttle.throttled?("foo", limit: 5) # => true
+
+    # ... wait 2 seconds ...
+
+    RailsThrottle::Throttle.throttled?("foo", limit: 5) # => false
+    ```
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Just the usual clone and `bundle` to install dependencies. Run `rake test` to run tests.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rails_throttle.
+Bug reports and pull requests are welcome on GitHub at https://github.com/peterzhu2118/rails_throttle.
 
 ## License
 

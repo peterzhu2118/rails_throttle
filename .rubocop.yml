@@ -1,0 +1,47 @@
+Metrics/LineLength:
+  Max: 120
+
+Style/Documentation:
+  Enabled: false
+
+Style/MixinUsage:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 40
+
+Metrics/MethodLength:
+  Max: 40
+
+Metrics/BlockLength:
+  Exclude:
+    - db/schema.rb
+  Max: 50
+
+Metrics/ClassLength:
+  Max: 200
+  Exclude:
+    - test/**/*.rb
+
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+Metrics/PerceivedComplexity:
+  Max: 15
+
+Style/MultilineTernaryOperator:
+  Enabled: false
+
+Style/DoubleNegation:
+  Enabled: false
+
+Style/NumericLiterals:
+  Exclude:
+    - 'db/schema.rb'
+
+Lint/PercentStringArray:
+  Exclude:
+    - 'config/initializers/csp.rb'
+    
+Style/StringLiterals:
+  EnforcedStyle: double_quotes

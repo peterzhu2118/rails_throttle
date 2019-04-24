@@ -28,6 +28,12 @@ jobs:
           name: Run tests
           command: |
             bundle exec rake test
+      
+      - run:
+          name: Rubocop
+          command:
+            bundle install rubocop
+            bundle exec rubocop
  
       - store_test_results:
           path: /tmp/test-results

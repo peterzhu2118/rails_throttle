@@ -80,7 +80,7 @@ module RailsThrottle
         RailsThrottle::Throttle.increment "foo", limit: 5, period: 5.seconds
       end
 
-      refute RailsThrottle::Throttle.throttled? "foo", 5
+      refute RailsThrottle::Throttle.throttled? "foo", limit: 5
     end
 
     test ".throttled? returns true on throttled keys" do
@@ -88,7 +88,7 @@ module RailsThrottle
         RailsThrottle::Throttle.increment "foo", limit: 5, period: 5.seconds
       end
 
-      assert RailsThrottle::Throttle.throttled? "foo", 5
+      assert RailsThrottle::Throttle.throttled? "foo", limit: 5
     end
 
     test ".reset resets the counter for the throttle" do
@@ -98,13 +98,13 @@ module RailsThrottle
 
       RailsThrottle::Throttle.reset "foo"
 
-      refute RailsThrottle::Throttle.throttled? "foo", 5
+      refute RailsThrottle::Throttle.throttled? "foo", limit: 5
 
       5.times do
         RailsThrottle::Throttle.increment "foo", limit: 5, period: 5.seconds
       end
 
-      assert RailsThrottle::Throttle.throttled? "foo", 5
+      assert RailsThrottle::Throttle.throttled? "foo", limit: 5
     end
   end
 end
