@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-- See full documentation here: 
+- See full documentation here: https://www.rubydoc.info/gems/rails_throttle/0.1.0/RailsThrottle/Throttle
 - Example configuration (for production, you can configure other environments in a similar way):
     ```ruby
     # In config/environments/production.rb
