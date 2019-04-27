@@ -13,7 +13,7 @@ module RailsThrottle
     #   parameters).
     # @yieldparam [String] key The key that was passed in.
     # @yieldparam [Integer] value The current value of the throttle counter.
-    # @return [Integer] The current value of the throttle counter.
+    # @return [Integer] The value of the block, or the current value of the throttle counter if no block is given.
     def self.increment(key, options = {}, &block)
       raise "Key cannot be blank" if key.blank?
 
@@ -42,9 +42,9 @@ module RailsThrottle
         else
           block.call(key, value)
         end
+      else
+        value
       end
-
-      value
     end
 
     # Decrements the counter for a given key.

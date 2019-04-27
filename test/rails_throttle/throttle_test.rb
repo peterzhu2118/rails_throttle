@@ -61,6 +61,14 @@ module RailsThrottle
       assert_equal 1, times_ran
     end
 
+    test ".throttle returns value in block" do
+      value = RailsThrottle::Throttle.increment "foo", limit: 5, period: 5.seconds do |key, value|
+        "Hello world!"
+      end
+
+      assert_equal "Hello world!", value
+    end
+
     test ".decrement decrements limit" do
       5.times do
         RailsThrottle::Throttle.increment "foo", limit: 5, period: 5.seconds
