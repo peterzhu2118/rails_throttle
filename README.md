@@ -7,7 +7,7 @@ RailsThrottle is a simple library used to throttle code in your Rails applicatio
 Add this line to your application's Gemfile:
 
 ```ruby
-gem "rails_throttle", "~> 0.1.0"
+gem "rails_throttle", "~> 0.2.0"
 ```
 
 And then execute:
