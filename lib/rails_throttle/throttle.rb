@@ -24,7 +24,7 @@ module RailsThrottle
       raise "Must specify :limit in the parameters" if limit.nil?
       raise "Must specify :period in the parameters" if period.nil?
 
-      value = RailsThrottle.backend.increment(key, increment)
+      value = RailsThrottle.backend.increment(key, increment, expires_in: period)
 
       if value.nil?
         RailsThrottle.backend.write(key, increment, expires_in: period)
@@ -52,13 +52,18 @@ module RailsThrottle
     # @param [String] key The key that uniquely identifies this throttle operation.
     # @param [Hash] options The options to this increment.
     # @option options [Integer] :decrement The amount to decrement the counter by, defaults to 1 if not provided.
+    # @option options [Integer] :period The period of time (in seconds) which this throttle applies, the throttle will
+    #   expire after this number of seconds.
     # @return [Integer] The current value of the throttle counter.
     def self.decrement(key, options = {})
       raise "Key cannot be blank." if key.blank?
 
       decrement = options[:decrement] || 1
+      period = options[:period]
 
-      RailsThrottle.backend.decrement(key, decrement)
+      raise "Must specify :period in the parameters" if period.nil?
+
+      RailsThrottle.backend.decrement(key, decrement, expires_in: period)
     end
 
     # Returns true if the key is throttled, false otherwise.

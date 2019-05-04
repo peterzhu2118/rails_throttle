@@ -33,7 +33,7 @@ Or install it yourself as:
     ```ruby
     RailsThrottle::Throttle.increment("foo", limit: 4, period: 2.seconds) # => 1
     RailsThrottle::Throttle.increment("foo", limit: 4, period: 2.seconds) # => 2
-    RailsThrottle::Throttle.decrement("foo", limit: 4, period: 2.seconds) # => 1
+    RailsThrottle::Throttle.decrement("foo", period: 2.seconds) # => 1
     RailsThrottle::Throttle.reset("foo")
     RailsThrottle::Throttle.increment("foo", limit: 4, period: 2.seconds, increment: 4) # => 4
     RailsThrottle::Throttle.increment("foo", limit: 4, period: 2.seconds) # => RailsThrottle::ThrottleError

@@ -74,7 +74,7 @@ module RailsThrottle
         RailsThrottle::Throttle.increment "foo", limit: 5, period: 5.seconds
       end
 
-      RailsThrottle::Throttle.decrement "foo"
+      RailsThrottle::Throttle.decrement "foo", period: 5.seconds
 
       refute RailsThrottle::Throttle.throttled? "foo", limit: 5
     end
