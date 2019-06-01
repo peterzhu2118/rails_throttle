@@ -30,7 +30,10 @@ module RailsThrottle
         RailsThrottle.backend.write(key, increment, expires_in: period)
 
         value = increment
-      elsif value > limit
+      end
+
+      if value > limit
+        RailsThrottle.backend.decrement(key, increment, expires_in: period)
         raise RailsThrottle::ThrottleError, "Limit exceeded for key `#{key}` with limit of #{limit}"
       end
 

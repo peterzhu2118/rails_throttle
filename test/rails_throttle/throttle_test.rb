@@ -26,6 +26,20 @@ module RailsThrottle
       assert_equal 5, times_ran
     end
 
+    test ".throttle throws ThrottleError when initially over throttle limit" do
+      assert_raises RailsThrottle::ThrottleError do
+        RailsThrottle::Throttle.increment "foo", limit: 5, period: 5.seconds, increment: 10
+      end
+
+      times_ran = 0
+
+      RailsThrottle::Throttle.increment "foo", limit: 5, period: 5.seconds do
+        times_ran += 1
+      end
+
+      assert_equal 1, times_ran
+    end
+
     test ".throttle on block with arity 0" do
       times_ran = 0
 
