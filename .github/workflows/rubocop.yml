@@ -8,9 +8,7 @@ jobs:
     - uses: actions/setup-ruby@v1
       with:
         ruby-version: 2.6
-    - run:
-      name: Install RuboCop
+    - name: Install RuboCop
       run: gem install rubocop
-    - run:
-      name: Run RuboCop
+    - name: Run RuboCop
       run: bundle exec rubocop
