@@ -8,8 +8,7 @@ jobs:
     - uses: actions/setup-ruby@v1
       with:
         ruby-version: ${{ matrix.ruby }}
-    - run:
-      name: Install Dependencies
+    - name: Install Dependencies
       run: bundle install
     - name: Run Tests
       run: bundle exec rake test
