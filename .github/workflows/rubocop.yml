@@ -10,7 +10,7 @@ jobs:
         ruby-version: 2.6
     - run:
       name: Install RuboCop
-      command: gem install rubocop
+      run: gem install rubocop
     - run:
       name: Run RuboCop
-      command: bundle exec rubocop
+      run: bundle exec rubocop
